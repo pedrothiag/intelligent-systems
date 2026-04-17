@@ -3,34 +3,28 @@ from grafos import sucessores, imprimir_grafo
 
 # Algoritmo de Busca em Profundidade (DFS)
 def dfs(grafo, node_inicial, objetivo=None):
-    #visitados = set()
-    visitados = []
-    pilha = [node_inicial]
+    visitados = []                                              # Lista para armazenar os vértices visitados, iniciando vazia
+    pilha = [node_inicial]                                      # Pilha para armazenar os vértices a serem visitados, iniciando com o nó inicial
     
-    # Enquanto houver vértices na pilha, continue a busca
-    while pilha:
-        # Remove o vértice do topo da pilha
-        vertice = pilha.pop()
+    while pilha:                                                # Enquanto houver vértices na pilha, continue a busca
+        vertice = pilha.pop()                                   # Remove o vértice do topo da pilha
 
-        # Verifica se o vértice já foi visitado (É necessário para evitar ciclos e visitas repetidas)
-        if vertice not in visitados:
-            # Marca o vértice como visitado
-            visitados.append(vertice)
+        if vertice not in visitados:                            # Verifica se o vértice já foi visitado
+            visitados.append(vertice)                           # Marca o vértice como visitado
             print(f"Visitando nó: {vertice} \t Pilha: {list(pilha)}")
         
-            # Verifica se o vértice é o objetivo
-            if vertice == objetivo:
+            if vertice == objetivo:                             # Verifica se o vértice é o objetivo
                 print(f"Objetivo {objetivo} encontrado!")
-                return list(visitados)
+                return list(visitados)                          # Retorna a lista de vértices visitados (incluindo o objetivo)
         
-            # Obtém os estados próximos (vizinhos) do vértice atual
-            estados_proximos = sucessores(grafo, vertice)
+            estados_proximos = sucessores(grafo, vertice)       # Obtém os estados próximos (vizinhos) do vértice atual
 
-            # Se houver estados próximos, adicione-os à pilha para serem visitados posteriormente
-            if estados_proximos:
-                #pilha.extend(estados_proximos)
-                pilha.extend(reversed(estados_proximos))        # Garantir que a ordem sempre seja feita pela esquerda
-    return list(visitados)
+            if estados_proximos:                                # Se houver estados próximos, adicione-os à pilha para serem visitados posteriormente
+                for vizinho in reversed(estados_proximos):      # Para cada vizinho, verifique se ele já foi visitado antes de adicioná-lo à pilha
+                    if vizinho not in visitados:                # Se o vizinho ainda não foi visitado, adicione-o à pilha
+                        pilha.append(vizinho)                   # Apenda o vizinho à pilha
+                        
+    return list(visitados)                                      # Retorna a lista de vértices visitados (sem encontrar o objetivo)
 
 # Exemplo de Grafo
 grafo_exemplo = {
