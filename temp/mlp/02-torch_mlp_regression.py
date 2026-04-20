@@ -7,11 +7,16 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import r2_score
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
 
 # Carregando o dataset
 data = fetch_california_housing()
 X = data.data
 y = data.target.reshape(-1, 1)
+
+df = pd.DataFrame(X, columns=data.feature_names)
+df['MedHouseVal'] = y
+print(df.head())
 
 # Divisão em conjunto de treinamento e teste
 X_train, X_test, y_train, y_test = train_test_split(
@@ -53,7 +58,7 @@ optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 # Laco de treinamento
 epochs = 200
-error_vector = np.zeros(epochs)
+train_loss = np.zeros(epochs)
 for epoch in range(epochs):
     model.train()
     optimizer.zero_grad()
@@ -67,7 +72,7 @@ for epoch in range(epochs):
 
     # Atualiza os pesos
     optimizer.step()
-    error_vector[epoch] = loss.item()
+    train_loss[epoch] = loss.item()
 
 # Avaliação do modelo
 model.eval()
@@ -81,7 +86,7 @@ print(f"R2: {r2:.4f}")
 
 plt.figure()
 epoch_vector = np.arange(1, epochs+1)
-plt.plot(epoch_vector, error_vector)
+plt.plot(epoch_vector, train_loss)
 plt.xlim([1, epochs])
 plt.xlabel("Época de treinamento")
 plt.ylabel("MSE")

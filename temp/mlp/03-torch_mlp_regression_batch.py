@@ -58,7 +58,7 @@ optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 # Laco de treinamento
 epochs = 50
-error_vector = np.zeros(epochs)
+train_loss = np.zeros(epochs)
 for epoch in range(epochs):
     model.train()
     epoch_loss = 0.0
@@ -79,7 +79,7 @@ for epoch in range(epochs):
         epoch_loss += loss.item()
     
     # Apresenta o vetor de erros
-    error_vector[epoch] = epoch_loss / len(train_loader)
+    train_loss[epoch] = epoch_loss / len(train_loader)
 
 # Avaliação do modelo
 model.eval()
@@ -93,7 +93,7 @@ print(f"R2: {r2:.4f}")
 
 plt.figure()
 epoch_vector = np.arange(1, epochs+1)
-plt.plot(epoch_vector, error_vector)
+plt.plot(epoch_vector, train_loss)
 plt.xlim([1, epochs])
 plt.xlabel("Época de treinamento")
 plt.ylabel("MSE")

@@ -7,13 +7,20 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, confusion_matrix
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
 
 # Carregar e Normalizar
 iris = load_iris()
 X = iris.data
 y = iris.target
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+df = pd.DataFrame(X, columns=iris.feature_names)
+df['target'] = y
+print(df.head())
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
 
 scaler = StandardScaler()
 X_train = scaler.fit_transform(X_train)
@@ -29,35 +36,34 @@ class IrisNet(nn.Module):
     def __init__(self):
         super(IrisNet, self).__init__()
         self.hidden1 = nn.Linear(4, 16)  # Entrada 4 -> Oculta 16
-        self.output = nn.Linear(16, 3)   # Oculta 8 -> Saída 3 (classes)
+        self.output = nn.Linear(16, 3)   # Oculta 16 -> Saída 3 (classes)
         self.relu = nn.ReLU()
 
     def forward(self, x):
         x = self.relu(self.hidden1(x))
-        x = self.output(x) # Não usamos Softmax aqui se usarmos CrossEntropyLoss
+        x = self.output(x)
         return x
 
 model = IrisNet()
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=0.01)
 
-epochs = 10
-error_vector = np.zeros(epochs)
+epochs = 50
+train_loss = np.zeros(epochs)
 for epoch in range(epochs):
     model.train()
     optimizer.zero_grad()
     
-    # 1. Forward pass (Previsão)
+    # Forward
     outputs = model(X_train)
     loss = criterion(outputs, y_train)
     
-    # 2. Backward pass (Cálculo do erro)
+    # Backward
     loss.backward()
     
-    # 3. Update (Atualiza os pesos)
+    # Update (Atualiza os pesos)
     optimizer.step()
-
-    error_vector[epoch] = loss.item()
+    train_loss[epoch] = loss.item()
 
 model.eval()
 with torch.no_grad():
@@ -68,6 +74,10 @@ with torch.no_grad():
     print(f'\nAcurácia Final: {accuracy:.4f}')
     print(cmatrix)
 
+epoch_vector = np.arange(1, epochs+1)
 plt.figure()
-plt.plot(error_vector)
+plt.plot(epoch_vector, train_loss)
+plt.xlabel("Época de treinamento")
+plt.ylabel("Loss")
+plt.grid()
 plt.show()
