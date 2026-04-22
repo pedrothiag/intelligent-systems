@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, confusion_matrix
 
-# Função de ativação
+# Função dee ativação
 def sigmoid(z):
     return np.where(z >= 0,
                     1 / (1 + np.exp(-z)),
