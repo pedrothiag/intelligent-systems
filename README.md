@@ -18,7 +18,9 @@ Neste repositório estão os materiais de suporte e códigos desenvolvidos para 
 | 10 | K-Means | [Slides](./Slides/10_kmeans.pdf) | [Notebook](./Notebooks/09_Clusterizacao.ipynb) |
 | 11 | Introdução às Redes Neurais Artificiais | [Slides](./Slides/11_introducao_rna.pdf) | |
 | 12 | Perceptron | [Slides](./Slides/12_perceptron.pdf) | [Notebook](./Notebooks/10_Percepetron.ipynb) |
-| 13 | Adaline | [Slides](./Slides/13_adaline.pdf) | |
+| 13 | Adaline | [Slides](./Slides/13_adaline.pdf) | [Notebook](./Notebooks/11_Adaline.ipynb) |
+| 14 | Redes Neurais Multicamadas (MLP) | [Slides](./Slides/14_mlp.pdf) | [Notebook](./Notebooks/12_Redes_MLP.ipynb) |
+| 15 | Redes Neurais Convolucionais (CNN) | [Slides](./Slides/15_cnn.pdf) | [Notebook](./Notebooks/13_CNN.ipynb) |
 
 ## 📦 Instalação das Bibliotecas
 
